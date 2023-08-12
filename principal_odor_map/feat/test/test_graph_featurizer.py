@@ -1,7 +1,7 @@
 import numpy as np
 from rdkit import Chem
 import pytest
-from principal_odor_map.feat.mpnn_featurizer \
+from principal_odor_map.feat.graph_featurizer \
     import atom_features, bond_features, GraphConvConstants, GraphFeaturizer
 
 
