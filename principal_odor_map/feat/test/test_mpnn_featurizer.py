@@ -2,9 +2,10 @@ import numpy as np
 from rdkit import Chem
 import pytest
 from principal_odor_map.feat.mpnn_featurizer \
-    import atom_features, bond_features, GraphConvConstants
+    import atom_features, bond_features, GraphConvConstants, GraphFeaturizer
 
 
+# Tests for helper functions
 @pytest.fixture
 def example_smiles_n_features():
     """
@@ -111,3 +112,76 @@ def test_bond_features(example_smiles_n_b_features):
         req_f = np.array(example_smiles_n_b_features[smiles])
         assert k.shape == req_f.shape
         assert b_f == example_smiles_n_b_features[smiles]
+
+
+# Tests for graph featurizer
+
+required_edge_index = {
+    "C1=CC=NC=C1":
+    np.asarray([[0, 1, 1, 5, 5, 2, 2, 4, 4, 3, 3, 0],
+                [1, 0, 5, 1, 2, 5, 4, 2, 3, 4, 0, 3]]),
+    "CC(=O)C":
+    np.asarray([[0, 3, 3, 2, 3, 1], [3, 0, 2, 3, 1, 3]]),
+    "C":
+    np.empty((2, 0), dtype=int)
+}
+
+
+def test_graph_featurizer_single_atom():
+    """
+    Test for featurization of "C" using `GraphFeaturizer` class.
+    """
+    smiles = "C"
+    featurizer = GraphFeaturizer()  # is_adding_hs=False
+    graph_feat = featurizer.featurize(smiles)
+    assert graph_feat[0].num_nodes == 1
+    assert graph_feat[0].num_node_features == GraphConvConstants.ATOM_FDIM
+    assert graph_feat[0].node_features.shape == (1,
+                                                 GraphConvConstants.ATOM_FDIM)
+    assert graph_feat[0].num_edges == 0
+    assert graph_feat[0].num_edge_features == GraphConvConstants.BOND_FDIM
+    assert graph_feat[0].edge_features.shape == (0,
+                                                 GraphConvConstants.BOND_FDIM)
+    assert graph_feat[0].edge_index.shape == required_edge_index['C'].shape
+    assert (graph_feat[0].edge_index == required_edge_index['C']).all()
+
+
+def test_graph_featurizer_general_case():
+    """
+    Test for featurization of "CC(=O)C" using `GraphFeaturizer` class.
+    """
+    smiles = "CC(=O)C"
+    featurizer = GraphFeaturizer()  # is_adding_hs=False
+    graph_feat = featurizer.featurize(smiles)
+    assert graph_feat[0].num_nodes == 4
+    assert graph_feat[0].num_node_features == GraphConvConstants.ATOM_FDIM
+    assert graph_feat[0].node_features.shape == (4,
+                                                 GraphConvConstants.ATOM_FDIM)
+    assert graph_feat[0].num_edges == 6
+    assert graph_feat[0].num_edge_features == GraphConvConstants.BOND_FDIM
+    assert graph_feat[0].edge_features.shape == (6,
+                                                 GraphConvConstants.BOND_FDIM)
+    assert graph_feat[0].edge_index.shape == required_edge_index[
+        'CC(=O)C'].shape
+    assert (graph_feat[0].edge_index == required_edge_index['CC(=O)C']).all()
+
+
+def test_graph_featurizer_ring():
+    """
+    Test for featurization of "C1=CC=NC=C1" using `GraphFeaturizer` class.
+    """
+    smiles = "C1=CC=NC=C1"
+    featurizer = GraphFeaturizer()  # is_adding_hs=False
+    graph_feat = featurizer.featurize(smiles)
+    assert graph_feat[0].num_nodes == 6
+    assert graph_feat[0].num_node_features == GraphConvConstants.ATOM_FDIM
+    assert graph_feat[0].node_features.shape == (6,
+                                                 GraphConvConstants.ATOM_FDIM)
+    assert graph_feat[0].num_edges == 12
+    assert graph_feat[0].num_edge_features == GraphConvConstants.BOND_FDIM
+    assert graph_feat[0].edge_features.shape == (12,
+                                                 GraphConvConstants.BOND_FDIM)
+    assert graph_feat[0].edge_index.shape == required_edge_index[
+        'C1=CC=NC=C1'].shape
+    assert (
+        graph_feat[0].edge_index == required_edge_index['C1=CC=NC=C1']).all()

@@ -37,7 +37,7 @@ def get_atom_total_valence_one_hot(
         atom: RDKitAtom,
         allowable_set: List[int],
         include_unknown_set: bool = True) -> List[float]:
-    """Get an one-hot feature for total valence of an atom.
+    """Get a one-hot feature for total valence of an atom.
 
     Parameters
     ---------

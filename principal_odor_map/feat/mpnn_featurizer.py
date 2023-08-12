@@ -1,6 +1,9 @@
+import numpy as np
 from rdkit import Chem
 from typing import List, Union, Dict, Sequence
-from deepchem.utils.typing import RDKitAtom, RDKitBond
+from deepchem.utils.typing import RDKitAtom, RDKitBond, RDKitMol
+from deepchem.feat.base_classes import MolecularFeaturizer
+from deepchem.feat.graph_data import GraphData
 from deepchem.utils.molecule_feature_utils import get_atom_total_degree_one_hot
 from deepchem.utils.molecule_feature_utils \
     import get_atom_formal_charge_one_hot
@@ -105,3 +108,129 @@ def bond_features(bond: RDKitBond) -> Sequence[Union[bool, int, float]]:
         ]
 
     return b_features
+
+
+class GraphFeaturizer(MolecularFeaturizer):
+    """
+    This class is a featurizer for GNN (MESSAGE PASSING) implementation for
+    Principal Odor Map.
+
+    The default node(atom) and edge(bond) representations are based on
+    `A Principal Odor Map Unifies Diverse Tasks in Human Olfactory Perception
+    preprint <https://www.biorxiv.org/content/10.1101/2022.09.01.504602v4>`_.
+
+    The default node representation are constructed by concatenating
+    the following values, and the feature length is 134.
+
+    - Valence: A one-hot vector for total valence (0-6) of an atom.
+    - Degree: A one-hot vector of the degree (0-5) of this atom.
+    - Number of Hydrogens: A one-hot vector of the number of hydrogens
+      (0-4) that this atom connected.
+    - Formal charge: Integer electronic charge, -1, -2, 1, 2, 0.
+    - Atomic num: A one-hot vector of this atom, in a range of first 100 atoms.
+    - Hybridization: A one-hot vector of "SP", "SP2", "SP3", "SP3D", "SP3D2".
+
+    The default edge representation are constructed by concatenating
+    the following values, and the feature length is 6.
+
+    - Bond type: A one-hot vector of the bond type,
+      "single", "double", "triple", or "aromatic".
+    - Is in ring: Boolean value to specify whether
+      the bond is in a ring or not.
+
+    If you want to know more details about features,
+    please check the paper [1]_ and utilities in
+    deepchem.utils.molecule_feature_utils.py.
+
+    References
+    ----------
+    .. [1] Kearnes, Steven, et al.
+       "Molecular graph convolutions: moving beyond fingerprints."
+        Journal of computer-aided molecular design 30.8 (2016):595-608.
+
+    Note
+    ----
+    This class requires RDKit to be installed.
+
+    """
+
+    def __init__(self, is_adding_hs=False):
+        """
+        Parameters
+        ----------
+        is_adding_hs: bool, default False
+            Whether to add Hs or not.
+        """
+        self.is_adding_hs = is_adding_hs
+        super(GraphFeaturizer).__init__()
+
+    def _construct_bond_index(self, datapoint: RDKitMol) -> np.ndarray:
+        """
+        Construct edge (bond) index
+
+        Parameters
+        ----------
+        datapoint: RDKitMol
+            RDKit mol object.
+
+        Returns
+        -------
+        edge_index: np.ndarray
+            Edge (Bond) index
+
+        """
+        src: List[int] = []
+        dest: List[int] = []
+        for bond in datapoint.GetBonds():
+            start, end = bond.GetBeginAtomIdx(), bond.GetEndAtomIdx()
+            src += [start, end]
+            dest += [end, start]
+        return np.asarray([src, dest], dtype=int)
+
+    def _featurize(self, datapoint: RDKitMol, **kwargs) -> GraphData:
+        """Calculate molecule graph features from RDKit mol object.
+
+        Parameters
+        ----------
+        datapoint: RDKitMol
+            RDKit mol object.
+
+        Returns
+        -------
+        graph: GraphData
+            A molecule graph object with features:
+            - node_features: Node feature matrix with shape
+              [num_nodes, num_node_features]
+            - edge_index: Graph connectivity in COO format with shape
+              [2, num_edges]
+            - edge_features: Edge feature matrix with shape
+              [num_edges, num_edge_features]
+        """
+        if isinstance(datapoint, Chem.rdchem.Mol):
+            if self.is_adding_hs:
+                datapoint = Chem.AddHs(datapoint)
+        else:
+            raise ValueError(
+                "Feature field should contain smiles for featurizer!")
+
+        # get atom features
+        f_atoms: np.ndarray = np.asarray(
+            [atom_features(atom) for atom in datapoint.GetAtoms()],
+            dtype=float)
+
+        # get edge(bond) features
+        if len(datapoint.GetBonds()) == 0:
+            f_bonds: np.ndarray = np.empty((0, GraphConvConstants.BOND_FDIM))
+        else:
+            f_bonds_list = []
+            for bond in datapoint.GetBonds():
+                b_feat = 2 * [bond_features(bond)]
+                f_bonds_list.extend(b_feat)
+            f_bonds = np.asarray(f_bonds_list, dtype=float)
+
+        # get edge index
+        edge_index: np.ndarray = self._construct_bond_index(datapoint)
+
+        return GraphData(node_features=f_atoms,
+                         edge_index=edge_index,
+                         edge_features=f_bonds)
