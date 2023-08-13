@@ -22,11 +22,10 @@ class CustomMultiLabelLoss(Loss):
     probabilities using a softmax function.
     """
 
-    def __init__(
-        self,
-        class_imbalance_ratio: Optional[List] = None,
-        loss_aggr_type: str = 'sum',
-    ):
+    def __init__(self,
+                 class_imbalance_ratio: Optional[List] = None,
+                 loss_aggr_type: str = 'sum',
+                 device: Optional[str] = None):
         """
         Parameters
         ---------
@@ -34,15 +33,25 @@ class CustomMultiLabelLoss(Loss):
             list of class imbalance ratios
         loss_aggr_type: str
             loss aggregation type; 'sum' or 'mean'
+        device: Optional[str]
+            The device on which to run computations. If None, a device is
+            chosen automatically.
         """
         super(CustomMultiLabelLoss, self).__init__()
         if class_imbalance_ratio is None:
             print(Warning("No class imbalance ratio provided!"))
-        self.class_imbalance_ratio: Optional[List] = class_imbalance_ratio
+            self.class_imbalance_ratio: Optional[torch.Tensor] = None
+        else:
+            self.class_imbalance_ratio = torch.Tensor(class_imbalance_ratio)
 
         if loss_aggr_type not in ['sum', 'mean']:
             raise ValueError(f"Invalid loss aggregate type: {loss_aggr_type}")
         self.loss_aggr_type: str = loss_aggr_type
+
+        if device is not None:
+            if self.class_imbalance_ratio is not None:
+                self.class_imbalance_ratio = self.class_imbalance_ratio.to(
+                    device)
 
     def _create_pytorch_loss(
             self) -> Callable[[torch.Tensor, torch.Tensor], torch.Tensor]:
@@ -99,7 +108,7 @@ class CustomMultiLabelLoss(Loss):
                     loss = ce_loss.mean(dim=1)
             else:
                 balancing_factors: torch.Tensor = torch.log(
-                    1 + torch.Tensor(self.class_imbalance_ratio))
+                    1 + self.class_imbalance_ratio)
 
                 # loss being weighted by a factor of
                 # log(1+ class_imbalance_ratio)
