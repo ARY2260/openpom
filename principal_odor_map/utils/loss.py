@@ -1,5 +1,5 @@
 import torch
-from typing import Optional, Callable
+from typing import Optional, Callable, List
 from deepchem.models.losses import Loss
 
 
@@ -24,29 +24,24 @@ class CustomMultiLabelLoss(Loss):
 
     def __init__(
         self,
-        class_imbalance_ratio: Optional[torch.Tensor] = None,
+        class_imbalance_ratio: Optional[List] = None,
         loss_aggr_type: str = 'sum',
     ):
         """
         Parameters
         ---------
-        class_imbalance_ratio: Optional[torch.Tensor]
-            Tensor of class imbalance ratios
+        class_imbalance_ratio: Optional[List]
+            list of class imbalance ratios
         loss_aggr_type: str
             loss aggregation type; 'sum' or 'mean'
         """
         super(CustomMultiLabelLoss, self).__init__()
         if class_imbalance_ratio is None:
             print(Warning("No class imbalance ratio provided!"))
-        else:
-            if not isinstance(class_imbalance_ratio, torch.Tensor):
-                raise Exception(
-                    'class imbalance ratio should be a torch.Tensor')
-        self.class_imbalance_ratio: Optional[
-            torch.Tensor] = class_imbalance_ratio
+        self.class_imbalance_ratio: Optional[List] = class_imbalance_ratio
 
         if loss_aggr_type not in ['sum', 'mean']:
-            raise Exception(f"Invalid loss aggregate type: {loss_aggr_type}")
+            raise ValueError(f"Invalid loss aggregate type: {loss_aggr_type}")
         self.loss_aggr_type: str = loss_aggr_type
 
     def _create_pytorch_loss(
@@ -103,11 +98,8 @@ class CustomMultiLabelLoss(Loss):
                 else:
                     loss = ce_loss.mean(dim=1)
             else:
-                if len(self.class_imbalance_ratio) != ce_loss.shape[1]:
-                    raise Exception("size of class_imbalance_ratio \
-                            should be equal to n_tasks")
                 balancing_factors: torch.Tensor = torch.log(
-                    1 + self.class_imbalance_ratio)
+                    1 + torch.Tensor(self.class_imbalance_ratio))
 
                 # loss being weighted by a factor of
                 # log(1+ class_imbalance_ratio)
