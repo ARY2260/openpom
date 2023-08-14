@@ -1,0 +1,7 @@
+smiles,fruity,green,herbal,sweet,woody
+CC(O)C1CCCCC1,1,0,1,0,0
+CCCCOC(=S)C(C)C,1,0,0,0,0
+CCOC(=O)C(CC)OC(C)=O,1,0,0,0,0
+CC(C)C=CC=O,0,1,0,0,1
+CCCCCC=COC(=O)CC(C)C,1,1,0,0,0
+CC1=CCC(=C(C)C)CC1,0,0,1,1,1
