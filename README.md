@@ -5,6 +5,7 @@ The model is implemented such that it integrates with [DeepChem](https://github.
 ## Contributors:
 Aryan Barsainyan: Code, data cleaning, model development<br/>
 Ritesh Kumar: data cleaning, hyperparameter optimisation<br/>
+Pinaki Saha: discussions and feedback<br/>
 Michael Schmuker: Conceptualisation, project lead<br/>
 
 ## References:
