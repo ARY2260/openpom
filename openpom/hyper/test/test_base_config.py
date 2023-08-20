@@ -1,6 +1,6 @@
 import os
 import numpy as np
-from principal_odor_map.hyper.configs.base_config import Config
+from openpom.hyper.configs.base_config import Config
 
 
 def test_config():
@@ -14,7 +14,7 @@ def test_config():
     }
     n_trials = 2
     param_dict, path = Config.generate_hyperparams_random(
-        n_trials=n_trials, dir="principal_odor_map/hyper/test/assets")
+        n_trials=n_trials, dir="openpom/hyper/test/assets")
     assert isinstance(param_dict, dict)
     assert isinstance(path, str)
     assert len(param_dict.keys()) == n_trials

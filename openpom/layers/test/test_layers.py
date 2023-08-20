@@ -1,7 +1,7 @@
 import torch
-from principal_odor_map.feat.graph_featurizer import GraphFeaturizer
-from principal_odor_map.layers.pom_ffn import CustomPositionwiseFeedForward
-from principal_odor_map.layers.pom_mpnn_gnn import CustomMPNNGNN
+from openpom.feat.graph_featurizer import GraphFeaturizer
+from openpom.layers.pom_ffn import CustomPositionwiseFeedForward
+from openpom.layers.pom_mpnn_gnn import CustomMPNNGNN
 
 
 def test_custom_position_wise_feed_forward():
