@@ -1,10 +1,11 @@
 import os
 import numpy as np
-from principal_odor_map.hyper.configs.config import Config
+from principal_odor_map.hyper.configs.base_config import Config
 
 
 def test_config():
     """
+    Test for Config base class
     """
     np.random.seed(0)
     Config.PARAMS_DICT = {
