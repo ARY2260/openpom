@@ -9,7 +9,7 @@ class Config:
     """
     Abstract base class for model configurations.
     It defines hyperparameter search space
-    for the a model.
+    for a model.
 
     Supported methods:
     - generate_hyperparams_random
