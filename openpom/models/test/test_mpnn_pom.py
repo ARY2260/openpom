@@ -2,8 +2,8 @@ import torch
 import dgl
 import pytest
 import numpy as np
-from principal_odor_map.feat.graph_featurizer import GraphFeaturizer
-from principal_odor_map.models.mpnn_pom import MPNNPOM
+from openpom.feat.graph_featurizer import GraphFeaturizer
+from openpom.models.mpnn_pom import MPNNPOM
 
 
 def test_mpnnpom_regression():

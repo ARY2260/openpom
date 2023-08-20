@@ -1,8 +1,8 @@
-from principal_odor_map.utils.molecule_feature_utils \
+from openpom.utils.molecule_feature_utils \
     import get_atomic_num_one_hot
-from principal_odor_map.utils.molecule_feature_utils \
+from openpom.utils.molecule_feature_utils \
     import get_atom_total_valence_one_hot
-from principal_odor_map.feat.graph_featurizer import GraphConvConstants
+from openpom.feat.graph_featurizer import GraphConvConstants
 from rdkit import Chem
 import numpy as np
 

@@ -6,17 +6,17 @@ import numpy as np
 from tqdm import tqdm
 import deepchem as dc
 from datetime import datetime
-from principal_odor_map.models.mpnn_pom import MPNNPOMModel
-from principal_odor_map.feat.graph_featurizer import GraphFeaturizer, GraphConvConstants
-from principal_odor_map.utils.data_utils import get_class_imbalance_ratio
-from principal_odor_map.hyper.configs.model_configs import MPNNPOMConfig
+from openpom.models.mpnn_pom import MPNNPOMModel
+from openpom.feat.graph_featurizer import GraphFeaturizer, GraphConvConstants
+from openpom.utils.data_utils import get_class_imbalance_ratio
+from openpom.hyper.configs.model_configs import MPNNPOMConfig
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 import logging
 
 logger = logging.getLogger(__name__)
 # logging.basicConfig(level=logging.INFO)
 
-DATASET = 'principal_odor_map/data/curated_datasets/curated_GS_LF_merged_4983.csv'
+DATASET = 'openpom/data/curated_datasets/curated_GS_LF_merged_4983.csv'
 SMILES_FIELD = 'nonStereoSMILES'
 TASKS = [
     'alcoholic', 'aldehydic', 'alliaceous', 'almond', 'amber', 'animal',

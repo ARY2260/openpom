@@ -3,9 +3,9 @@ import tempfile
 import numpy as np
 import deepchem as dc
 from deepchem.data.data_loader import CSVLoader
-from principal_odor_map.feat.graph_featurizer import GraphFeaturizer
-from principal_odor_map.models.mpnn_pom import MPNNPOM, MPNNPOMModel
-from principal_odor_map.utils.data_utils import get_class_imbalance_ratio
+from openpom.feat.graph_featurizer import GraphFeaturizer
+from openpom.models.mpnn_pom import MPNNPOM, MPNNPOMModel
+from openpom.utils.data_utils import get_class_imbalance_ratio
 
 
 def test_mpnnpom_model_classification():
@@ -24,7 +24,7 @@ def test_mpnnpom_model_classification():
                        feature_field=smiles_field,
                        featurizer=featurizer)
     input_file = \
-        'principal_odor_map/models/test/assets/test_dataset_sample_7.csv'
+        'openpom/models/test/assets/test_dataset_sample_7.csv'
     dataset = loader.create_dataset(inputs=[input_file])
     class_imbalance_ratio = get_class_imbalance_ratio(dataset=dataset)
 
@@ -59,7 +59,7 @@ def test_mpnnpom_model_regression():
                        feature_field=smiles_field,
                        featurizer=featurizer)
     input_file = \
-        'principal_odor_map/models/test/assets/test_regression_sample.csv'
+        'openpom/models/test/assets/test_regression_sample.csv'
     dataset = loader.create_dataset(inputs=[input_file])
 
     model = MPNNPOMModel(
@@ -93,7 +93,7 @@ def test_mpnnpom_model_reload():
                        feature_field=smiles_field,
                        featurizer=featurizer)
     input_file = \
-        'principal_odor_map/models/test/assets/test_regression_sample.csv'
+        'openpom/models/test/assets/test_regression_sample.csv'
     dataset = loader.create_dataset(inputs=[input_file])
 
     # initialize the model

@@ -1,4 +1,4 @@
-from principal_odor_map.utils.optimizer import get_optimizer
+from openpom.utils.optimizer import get_optimizer
 
 
 def test_get_optimizer():

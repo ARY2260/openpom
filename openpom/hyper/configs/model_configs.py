@@ -1,7 +1,7 @@
 # yapf: disable
 import numpy as np
 from typing import Dict
-from principal_odor_map.hyper.configs.base_config import Config
+from openpom.hyper.configs.base_config import Config
 
 
 class MPNNPOMConfig(Config):

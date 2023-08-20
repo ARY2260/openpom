@@ -7,15 +7,15 @@ from deepchem.models.losses import Loss, L2Loss
 from deepchem.models.torch_models.torch_model import TorchModel
 from deepchem.models.optimizers import Optimizer, LearningRateSchedule
 
-from principal_odor_map.layers.pom_ffn import CustomPositionwiseFeedForward
-from principal_odor_map.utils.loss import CustomMultiLabelLoss
-from principal_odor_map.utils.optimizer import get_optimizer
+from openpom.layers.pom_ffn import CustomPositionwiseFeedForward
+from openpom.utils.loss import CustomMultiLabelLoss
+from openpom.utils.optimizer import get_optimizer
 
 try:
     import dgl
     from dgl import DGLGraph
     from dgl.nn.pytorch import Set2Set
-    from principal_odor_map.layers.pom_mpnn_gnn import CustomMPNNGNN
+    from openpom.layers.pom_mpnn_gnn import CustomMPNNGNN
 except (ImportError, ModuleNotFoundError):
     raise ImportError('This module requires dgl and dgllife')
 

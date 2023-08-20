@@ -1,5 +1,5 @@
 import torch
-from principal_odor_map.utils.loss import CustomMultiLabelLoss
+from openpom.utils.loss import CustomMultiLabelLoss
 
 
 def test_custom_multilabel_loss_sum():
