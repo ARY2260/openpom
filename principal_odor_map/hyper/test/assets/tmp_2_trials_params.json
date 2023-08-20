@@ -1,0 +1,10 @@
+{
+    "trial_1": {
+        "param1": "p1v2",
+        "param2": "p2v3"
+    },
+    "trial_2": {
+        "param1": "p1v1",
+        "param2": "p2v3"
+    }
+}
