@@ -1,0 +1,12 @@
+pyrfume
+pandas
+numpy
+rdkit
+deepchem
+torch
+torchvision
+torchaudio
+dgllife
+pytest
+ipykernel
+scikit-multilearn
