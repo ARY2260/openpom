@@ -1,6 +1,16 @@
 # Open Principal Odor Map
 Replication of the Principal Odor Map paper by Lee et al (2022) \[1\].
-The model is implemented such that it integrates with [DeepChem](https://github.com/deepchem/deepchem ). 
+The model is implemented such that it integrates with [DeepChem](https://github.com/deepchem/deepchem ).
+
+## Installation (Python 3.9 and above)
+### PyPI based installation
+1. `pip install openpom`
+
+**openpom** requires [cuda verion of dgl libraries](https://www.dgl.ai/pages/start.html)<br>
+For cuda 11.7, steps below can be followed:
+
+2. `pip install  dgl -f https://data.dgl.ai/wheels/cu117/repo.html`
+3. `pip install  dglgo -f https://data.dgl.ai/wheels-test/repo.html`
 
 ## Contributors:
 Aryan Barsainyan: Code, data cleaning, model development<br/>
