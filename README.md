@@ -54,13 +54,12 @@ pip install  dglgo -f https://data.dgl.ai/wheels-test/repo.html
 Example notebooks for model training and finetuning are available [here](https://github.com/ARY2260/openpom/tree/main/examples).
 
 ## Contributors:
-**Aryan Barsainyan**: code, data cleaning, model development<br/>
-**Ritesh Kumar**: data cleaning, hyperparameter optimisation<br/>
-**Pinaki Saha**: discussions and feedback<br/>
-**Michael Schmuker**: conceptualisation, project lead<br/>
+**Aryan Barsainyan**, National Institute of Technology, Karnataka, India: code, data cleaning, model development<br/>
+**Ritesh Kumar**, CSIR-CSIO, Chandigarh, India: data cleaning, hyperparameter optimisation<br/>
+**Pinaki Saha**, University of Hertfordshire, UK: discussions and feedback<br/>
+**Michael Schmuker**, University of Hertfordshire, UK: conceptualisation, project lead<br/>
 
 ## References:
-A Principal Odor Map Unifies Diverse Tasks in Human Olfactory Perception.<br/>
-
+\[1\] A Principal Odor Map Unifies Diverse Tasks in Human Olfactory Perception.<br/>
 Brian K. Lee, Emily J. Mayhew, Benjamin Sanchez-Lengeling, Jennifer N. Wei, Wesley W. Qian, Kelsie Little, Matthew Andres, Britney B. Nguyen, Theresa Moloy, Jane K. Parker, Richard C. Gerkin, Joel D. Mainland, Alexander B. Wiltschko<br/>
 bioRxiv 2022.09.01.504602; doi: [https://doi.org/10.1101/2022.09.01.504602](https://doi.org/10.1101/2022.09.01.504602)
