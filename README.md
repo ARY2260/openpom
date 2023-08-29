@@ -54,7 +54,7 @@ pip install  dglgo -f https://data.dgl.ai/wheels-test/repo.html
 Example notebooks for model training and finetuning are available [here](https://github.com/ARY2260/openpom/tree/main/examples).
 
 ## Contributors:
-**Aryan Barsainyan**, National Institute of Technology, Karnataka, India: code, data cleaning, model development<br/>
+**Aryan Amit Barsainyan**, National Institute of Technology Karnataka, India: code, data cleaning, model development<br/>
 **Ritesh Kumar**, CSIR-CSIO, Chandigarh, India: data cleaning, hyperparameter optimisation<br/>
 **Pinaki Saha**, University of Hertfordshire, UK: discussions and feedback<br/>
 **Michael Schmuker**, University of Hertfordshire, UK: conceptualisation, project lead<br/>
