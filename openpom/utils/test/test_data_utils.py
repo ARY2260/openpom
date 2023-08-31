@@ -89,3 +89,24 @@ def test_IS_split_train_valid_test():
     assert isinstance(test, DiskDataset)
     assert round(len(train) / (len(train) + len(valid) + len(test)), 1) == 0.7
     assert round(len(valid) / (len(train) + len(valid) + len(test)), 1) == 0.2
+
+
+def test_IS_split_kfold():
+    """
+    Test kfold split of IterativeStratifiedSplitter
+    """
+    featurizer = GraphFeaturizer()
+    smiles_field = 'nonStereoSMILES'
+    loader = CSVLoader(tasks=TASKS,
+                       feature_field=smiles_field,
+                       featurizer=featurizer)
+    input_file = \
+        'openpom/utils/test/assets/large_test_dataset.csv'
+    dataset = loader.create_dataset(inputs=[input_file])
+    splitter = IterativeStratifiedSplitter(order=2)
+
+    folds_list = splitter.k_fold_split(dataset, k=5)
+    assert len(folds_list) == 5
+    assert len(folds_list[0]) == 2
+    assert isinstance(folds_list[0][0], DiskDataset)
+    assert isinstance(folds_list[0][1], DiskDataset)

@@ -1,7 +1,7 @@
 import tempfile
 import pandas as pd
 import numpy as np
-from typing import List, Optional, Tuple
+from typing import List, Optional, Tuple, Iterator
 from deepchem.data.datasets import DiskDataset
 from skmultilearn.model_selection import IterativeStratification
 from deepchem.splits import Splitter
@@ -139,5 +139,55 @@ class IterativeStratifiedSplitter(Splitter):
         valid_indices, test_indices = next(stratifier2.split(X2, y2))
         return train_indices, valid_indices, test_indices
 
-    def k_fold_split(self, dataset, k):
-        raise NotImplementedError
+    def k_fold_split(
+        self,
+        dataset: DiskDataset,
+        k: int,
+        directories: Optional[List[str]] = None
+    ) -> List[Tuple[DiskDataset, DiskDataset]]:
+        """
+        Parameters
+        ----------
+        dataset: DiskDataset
+            DiskDataset to do a k-fold split
+        k: int
+            Number of folds to split `DiskDataset` into. (k>1)
+        directories: List[str], optional (default None)
+            List of length 2*k filepaths to save the result disk-datasets.
+
+        Returns
+        -------
+        List[Tuple[DiskDataset, DiskDataset]]
+            List of length k tuples of (train, cv)
+            where `train` and `cv` are both `DiskDataset`.
+        """
+        assert k != 1
+        if directories is None:
+            directories = [tempfile.mkdtemp() for _ in range(2 * k)]
+        else:
+            assert len(directories) == 2 * k
+
+        X: pd.DataFrame
+        y: pd.DataFrame
+        X, y = pd.DataFrame(dataset.X), pd.DataFrame(dataset.y)
+        stratifier: IterativeStratification = IterativeStratification(
+            n_splits=k,
+            order=self.order,
+        )
+
+        train_datasets: List = []
+        cv_datasets: List = []
+        split_gen: Iterator = stratifier.split(X, y)
+        for fold in range(k):
+            train_dir, cv_dir = directories[2 * fold], directories[2 * fold +
+                                                                   1]
+            train_indices: np.ndarray
+            cv_indices: np.ndarray
+            train_indices, cv_indices = next(split_gen)
+            train_dataset: DiskDataset = dataset.select(
+                train_indices.tolist(), train_dir)
+            cv_dataset: DiskDataset = dataset.select(cv_indices.tolist(),
+                                                     cv_dir)
+            train_datasets.append(train_dataset)
+            cv_datasets.append(cv_dataset)
+        return list(zip(train_datasets, cv_datasets))
