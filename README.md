@@ -23,6 +23,11 @@ For cuda 11.7, steps below can be followed:
    pip install  dglgo -f https://data.dgl.ai/wheels-test/repo.html
    ```
 
+Note: If you are using Amazon Linux 2 based OS on EC2 instance, use:
+```bash
+pip install  dgl==1.1.2 -f https://data.dgl.ai/wheels/cu117/repo.html
+```
+
 ### Github fork based installation
 1. Fork the [OpenPOM](https://github.com/ARY2260/openpom) repository
 and clone the forked repository
