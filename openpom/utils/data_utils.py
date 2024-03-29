@@ -2,7 +2,7 @@ import tempfile
 import pandas as pd
 import numpy as np
 from typing import List, Optional, Tuple, Iterator
-from deepchem.data.datasets import DiskDataset
+from deepchem.data.datasets import DiskDataset, NumpyDataset
 from skmultilearn.model_selection import IterativeStratification
 from deepchem.splits import Splitter
 
@@ -34,8 +34,8 @@ def get_class_imbalance_ratio(dataset: DiskDataset) -> List:
        "A review of methods for imbalanced multi-label classification"
        Pattern Recognit. (2021)
     """
-    if not isinstance(dataset, DiskDataset):
-        raise Exception("The dataset should be a deepchem DiskDataset")
+    if not isinstance(dataset, DiskDataset) and not isinstance(dataset, NumpyDataset):
+        raise Exception("The dataset should be a deepchem DiskDataset or NumpyDataset")
     df: pd.DataFrame = pd.DataFrame(dataset.y)
     class_counts: np.ndarray = df.sum().to_numpy()
     max_count: int = max(class_counts)
