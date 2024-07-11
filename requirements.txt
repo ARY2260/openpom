@@ -3,8 +3,8 @@ pandas==2.0.3
 numpy==1.25.1
 rdkit==2022.9.5
 deepchem==2.7.2.dev20230719055234
---find-links https://download.pytorch.org/whl/torch_stable.html
-torch==2.0.1+cu117
+--extra-index-url https://download.pytorch.org/whl/cu117
+torch==2.0.1
 torch-cluster==1.6.3
 torch-geometric==2.4.0
 torch-scatter==2.1.1
