@@ -17,10 +17,7 @@ The model is implemented such that it integrates with [DeepChem](https://github.
 For cuda 11.7, steps below can be followed:
 
 2. ```bash
-   pip install  dgl -f https://data.dgl.ai/wheels/cu117/repo.html
-   ```
-3. ```bash
-   pip install  dglgo -f https://data.dgl.ai/wheels-test/repo.html
+   !pip install dgl==1.1.1 -f https://data.dgl.ai/wheels/cu117/repo.html
    ```
 
 Note: If you are using Amazon Linux 2 based OS on EC2 instance, use:
@@ -55,9 +52,7 @@ python setup.py develop
 ```
 4. Install DGL cuda libs
 ```bash
-pip install  dgl -f https://data.dgl.ai/wheels/cu117/repo.html
-
-pip install  dglgo -f https://data.dgl.ai/wheels-test/repo.html
+!pip install dgl==1.1.1 -f https://data.dgl.ai/wheels/cu117/repo.html
 ```
 
 ## Getting started
