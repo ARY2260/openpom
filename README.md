@@ -71,3 +71,13 @@ Brian K. Lee, Emily J. Mayhew, Benjamin Sanchez-Lengeling, Jennifer N. Wei, Wesl
 
 Science381,999-1006(2023).DOI: [10.1126/science.ade4401](https://doi.org/10.1126/science.ade4401) <br/>
 bioRxiv 2022.09.01.504602; doi: [https://doi.org/10.1101/2022.09.01.504602](https://doi.org/10.1101/2022.09.01.504602)
+
+## Citing OpenPOM:
+```
+@misc{OpenPOM,
+  author={Aryan Amit Barsainyan and Ritesh Kumar and Pinaki Saha and Michael Schmuker},
+  title={OpenPOM - Open Principal Odor Map},
+  year={2023},
+  note={\url{https://github.com/BioMachineLearning/openpom}},
+}
+```
