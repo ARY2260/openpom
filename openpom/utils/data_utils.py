@@ -136,7 +136,12 @@ class IterativeStratifiedSplitter(Splitter):
 
         valid_indices: np.ndarray
         test_indices: np.ndarray
-        valid_indices, test_indices = next(stratifier2.split(X2, y2))
+        valid_indices_internal, test_indices_internal = next(stratifier2.split(X2, y2))
+
+        # index correction as valid_indices_internal and test_indices_internal are
+        # in terms of other_indices and not input `dataset`
+        valid_indices = other_indices[valid_indices_internal]
+        test_indices = other_indices[test_indices_internal]
         return train_indices, valid_indices, test_indices
 
     def k_fold_split(
