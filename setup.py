@@ -6,7 +6,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='openpom',
-    version='0.2.4',
+    version='0.2.5',
     description='Open-source Principal Odor Map models for Olfaction',
     license='MIT',
     long_description="""Open Principal Odor Map

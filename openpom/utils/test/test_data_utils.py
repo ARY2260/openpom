@@ -64,6 +64,7 @@ def test_IS_split_train_test():
     assert isinstance(train, DiskDataset)
     assert isinstance(test, DiskDataset)
     assert round(len(train) / (len(train) + len(test)), 1) == 0.7
+    assert len(set(train.ids).intersection(set(test.ids))) == 0
 
 
 def test_IS_split_train_valid_test():
@@ -89,6 +90,9 @@ def test_IS_split_train_valid_test():
     assert isinstance(test, DiskDataset)
     assert round(len(train) / (len(train) + len(valid) + len(test)), 1) == 0.7
     assert round(len(valid) / (len(train) + len(valid) + len(test)), 1) == 0.2
+    assert len(set(train.ids).intersection(set(valid.ids))) == 0
+    assert len(set(train.ids).intersection(set(test.ids))) == 0
+    assert len(set(valid.ids).intersection(set(test.ids))) == 0
 
 
 def test_IS_split_kfold():
@@ -110,3 +114,4 @@ def test_IS_split_kfold():
     assert len(folds_list[0]) == 2
     assert isinstance(folds_list[0][0], DiskDataset)
     assert isinstance(folds_list[0][1], DiskDataset)
+    assert len(set(folds_list[0][0].ids).intersection(set(folds_list[0][1].ids))) == 0
