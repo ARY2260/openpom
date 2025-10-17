@@ -6,7 +6,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='openpom',
-    version='0.2.5',
+    version='1.0.0',
     description='Open-source Principal Odor Map models for Olfaction',
     license='MIT',
     long_description="""Open Principal Odor Map
@@ -39,5 +39,5 @@ bioRxiv 2022.09.01.504602; doi: [https://doi.org/10.1101/2022.09.01.504602](http
     author='Aryan Amit Barsainyan',
     author_email='aryan.barsainyan@gmail.com',
     packages=find_packages(),
-    install_requires=requirements,
+    install_requires=requirements+['deepchem', 'torch', 'dgl'],
 )
