@@ -58,6 +58,7 @@ pip install .
 Example notebooks for model training and finetuning are available [here](https://github.com/ARY2260/openpom/tree/main/examples).
 
 ### Odor Prediction Demo: `predict_odors.py`
+<img width="600" height="400" alt="image" src="https://github.com/user-attachments/assets/bd224afb-841a-4910-84cb-08528c1043bf" />
 
 A ready-to-use demo GUI for predicting odor qualities from molecular SMILES strings is provided in [`predict_odors.py`](./predict_odors.py).
 This Python script allows you to enter a SMILES string and obtain model-based odor predictions, visualized as a barplot of the top-N scoring odor terms.
