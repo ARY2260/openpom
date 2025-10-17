@@ -57,6 +57,44 @@ pip install .
 ## Getting started
 Example notebooks for model training and finetuning are available [here](https://github.com/ARY2260/openpom/tree/main/examples).
 
+### Odor Prediction Demo: `predict_odors.py`
+
+A ready-to-use demo GUI for predicting odor qualities from molecular SMILES strings is provided in [`predict_odors.py`](./predict_odors.py).
+This Python script allows you to enter a SMILES string and obtain model-based odor predictions, visualized as a barplot of the top-N scoring odor terms.
+
+#### Features
+
+- **Ensemble MPNN Models:** Uses a openpom 10-model ensemble trained on the Principal Odor Map (POM) dataset.
+- **Graphical User Interface:** Enter SMILES, select the number of top odors to display, and visualize results interactively.
+- **RDKit-based Structure Rendering:** Shows the molecular structure (if RDKit is installed).
+- **One-click Results Export:** Copy top-N predictions as TXT or JSON for downstream analysis.
+
+#### Running the Demo
+
+Assuming you have installed the required dependencies and downloaded or trained the ensemble models to `./models/ensemble_models`, launch the GUI with:
+```bash
+python predict_odors.py
+```
+The default window will prompt you to input a SMILES string. Press **Predict Odors** to view results.
+
+- The left side of the interface displays the input entry and buttons.
+- The right side shows the predicted odor probabilities as a bar chart for the top N terms.
+- Results can be easily copied as text or JSON for practical use.
+
+> **Note:** If you do not have GPU support (CUDA), ensure the models are set to load on CPU. You may have to edit the `device_name` parameter in the script accordingly.
+
+#### Example Usage
+
+1. **Input a SMILES string:**  
+   For example, `CCO` (ethanol).
+2. **Choose Top N:**  
+   Specify how many of the highest-scoring odors to visualize.
+3. **Press "Predict Odors":**  
+   The barplot will show the predicted intensity for each top odor term.
+4. **Copy Results:**  
+   Use **Copy Results (TXT/JSON)** to export the predictions for further processing.
+
+
 ## Contributors:
 **Aryan Amit Barsainyan**, National Institute of Technology Karnataka, India: code, data cleaning, model development<br/>
 **Ritesh Kumar**, CSIR-CSIO, Chandigarh, India: data cleaning, hyperparameter optimisation<br/>
