@@ -7,22 +7,26 @@ The model is implemented such that it integrates with [DeepChem](https://github.
 | :------------: |   :---:       |   :---:       | :--------: |
 | [MPNNPOMModel](https://github.com/ARY2260/openpom/blob/74e964eb5b1086badcb3e3ba47df3528259d7000/openpom/models/mpnn_pom.py)        |  [curated_GS_LF_merged_4983.csv](https://github.com/ARY2260/openpom/blob/74e964eb5b1086badcb3e3ba47df3528259d7000/openpom/data/curated_datasets/curated_GS_LF_merged_4983.csv)       | 5-Fold CV with ensemble of 10 models per fold   | 0.8872
 
-## Installation (Python 3.9 and above)
+## Installation (Python 3.10)
 ### PyPI based installation
-1. ```bash
-   pip install openpom
-   ```
+1. Install latest Deepchem (nightly) version:
 
-**openpom** requires [cuda verion of dgl libraries](https://www.dgl.ai/pages/start.html)<br>
-For cuda 11.7, steps below can be followed:
-
-2. ```bash
-   pip install dgl==1.1.1 -f https://data.dgl.ai/wheels/cu117/repo.html
-   ```
-
-Note: If you are using Amazon Linux 2 based OS on EC2 instance, use:
 ```bash
-pip install  dgl==1.1.2 -f https://data.dgl.ai/wheels/cu117/repo.html
+pip install --pre deepchem
+```
+
+2. Install torch v2.4.0 - CUDA 12.4 and dgl (for respective torch version)
+
+```bash
+pip install torch==2.4.0 torchvision==0.19.0 torchaudio==2.4.0 --index-url https://download.pytorch.org/whl/cu124
+
+pip install dgl -f https://data.dgl.ai/wheels/torch-2.4/cu124/repo.html
+```
+
+3. Install openpom
+
+```bash
+pip install openpom
 ```
 
 ### Github fork based installation
@@ -36,23 +40,18 @@ cd openpom
 
 2. Setup conda environment
 ```bash
-conda create -n open_pom python=3.9
+conda create -n open_pom python=3.10
 conda activate open_pom
 ```
 
-3. Install openpom
+3. Install required dependencies and openpom
 
 ```bash
+pip install --pre deepchem
+pip install torch==2.4.0 torchvision==0.19.0 torchaudio==2.4.0 --index-url https://download.pytorch.org/whl/cu124
+pip install dgl -f https://data.dgl.ai/wheels/torch-2.4/cu124/repo.html
+pip install pyrfume dgllife pytest ipykernel scikit-multilearn
 pip install .
-```
-
-or (for developing)
-```bash
-python setup.py develop
-```
-4. Install DGL cuda libs
-```bash
-pip install dgl==1.1.1 -f https://data.dgl.ai/wheels/cu117/repo.html
 ```
 
 ## Getting started
